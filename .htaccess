@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. Paksa HTTPS (Harus paling atas)
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # 2. Redirect semua trafik ke folder /public
+    # Pastikan file/folder memang tidak ada di root sebelum di-redirect
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+<!--  Keamanan & Optimasi -->
+Options -Indexes
+
+<!-- Proteksi file sensitif -->
+<FilesMatch "^\.env|composer\.(json|lock)|package(-lock)?\.json$|vite\.config\.js">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<!-- Mencegah akses ke folder internal (Opsional tapi bagus untuk keamanan) -->
+RedirectMatch 404 ^/(app|bootstrap|config|database|resources|routes|tests|vendor)
