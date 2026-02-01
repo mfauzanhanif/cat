@@ -15,11 +15,21 @@ use Livewire\Component;
 class TakeExam extends Component
 {
     public Exam $exam;
+
     public ?ExamSession $session = null;
+
     public $questions = [];
+
     public $answers = [];
+
     public int $currentQuestionIndex = 0;
+
     public int $remainingSeconds = 0;
+
+    public function title(): string
+    {
+        return $this->exam->title ?? 'Ujian';
+    }
 
     public function mount(Exam $exam)
     {
@@ -27,8 +37,9 @@ class TakeExam extends Component
         $user = auth()->user();
 
         // Check if exam is active
-        if (!$this->exam->is_active) {
+        if (! $this->exam->is_active) {
             session()->flash('error', 'Ujian ini tidak tersedia.');
+
             return redirect()->route('siswa.dashboard');
         }
 
@@ -39,6 +50,7 @@ class TakeExam extends Component
 
         if ($existingSession && $existingSession->status === 'completed') {
             session()->flash('error', 'Anda sudah mengerjakan ujian ini.');
+
             return redirect()->route('siswa.dashboard');
         }
 
@@ -100,6 +112,7 @@ class TakeExam extends Component
             $this->questions[$index] = [
                 'id' => $examAnswer->question->id,
                 'content' => $examAnswer->question->content,
+                'image_path' => $examAnswer->question->image_path,
                 'option_a' => $examAnswer->question->option_a,
                 'option_b' => $examAnswer->question->option_b,
                 'option_c' => $examAnswer->question->option_c,
@@ -170,7 +183,7 @@ class TakeExam extends Component
     #[On('timer-expired')]
     public function submitExam()
     {
-        if (!$this->session || $this->session->status === 'completed') {
+        if (! $this->session || $this->session->status === 'completed') {
             return $this->redirect(route('siswa.dashboard'), navigate: true);
         }
 
@@ -181,12 +194,12 @@ class TakeExam extends Component
         $this->session->update(['status' => 'completed']);
 
         session()->flash('success', 'Ujian berhasil diselesaikan!');
+
         return $this->redirect(route('siswa.dashboard'), navigate: true);
     }
 
     public function render()
     {
-        return view('livewire.siswa.take-exam')
-            ->layoutData(['title' => $this->exam->title]);
+        return view('livewire.siswa.take-exam');
     }
 }

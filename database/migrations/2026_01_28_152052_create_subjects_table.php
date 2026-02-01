@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('subject_id')->constrained()->cascadeOnDelete();
             $table->longText('content'); // Pertanyaan
             // Opsi Jawaban (A-D, 4 pilihan)
+            $table->string('image_path')->nullable();
             $table->string('option_a');
             $table->string('option_b');
             $table->string('option_c');
