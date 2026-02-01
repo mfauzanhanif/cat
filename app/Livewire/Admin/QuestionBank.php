@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Exports\QuestionsTemplateExport;
 use App\Imports\QuestionsImport;
 use App\Models\Question;
 use App\Models\Subject;
@@ -189,6 +190,11 @@ class QuestionBank extends Component
         } catch (\Exception $e) {
             $this->addError('importFile', 'Terjadi kesalahan saat import: '.$e->getMessage());
         }
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new QuestionsTemplateExport, 'template-soal.xlsx');
     }
 
     private function resetForm(): void

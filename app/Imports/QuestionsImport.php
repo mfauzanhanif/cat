@@ -13,7 +13,7 @@ class QuestionsImport implements ToModel, WithHeadingRow, WithValidation
 {
     /**
      * @return \Illuminate\Database\Eloquent\Model|null
-     * 
+     *
      * Note: Kolom tambahan seperti 'no' akan otomatis diabaikan.
      * Hanya kolom yang disebutkan di method ini yang akan diproses.
      */

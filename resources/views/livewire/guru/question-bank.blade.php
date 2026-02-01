@@ -185,8 +185,15 @@
                 <flux:text class="mt-1 text-zinc-500">
                     Upload file Excel (.xlsx, .xls) atau CSV. Pastikan format header sesuai.
                     <br><code
-                        class="text-xs bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">mata_pelajaran, pertanyaan, opsi_a, opsi_b, opsi_c, opsi_d, kunci_jawaban</code>
+                        class="text-xs bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded">no, mata_pelajaran, pertanyaan, opsi_a, opsi_b, opsi_c, opsi_d, kunci_jawaban</code>
+                    <br><span class="text-xs mt-1 block">Kolom <strong>no</strong> bersifat opsional dan akan
+                        diabaikan.</span>
                 </flux:text>
+
+                <flux:button wire:click="downloadTemplate" variant="ghost" icon="arrow-down-tray" size="sm"
+                    class="mt-2">
+                    Download Template Excel
+                </flux:button>
             </div>
 
             <form wire:submit="importExcel" class="space-y-4">
